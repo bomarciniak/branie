@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#faf7f2"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Branie"/>
+<meta name="description" content="Din overordnede projekt- og idéhub"/>
+<link rel="manifest" href="manifest.json"/>
+<title>Branie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:       #faf7f2;
+  --bg2:      #f3ede3;
+  --bg3:      #ebe3d6;
+  --ink:      #1c1814;
+  --ink2:     #4a4037;
+  --ink3:     #9a8f83;
+  --terra:    #c96b42;
+  --terra-l:  #f5ece6;
+  --sage:     #5f8a68;
+  --sage-l:   #eaf2eb;
+  --sky:      #4a7fa5;
+  --sky-l:    #e6f0f7;
+  --gold:     #b8892a;
+  --gold-l:   #f7f0e0;
+  --rose:     #b85e6e;
+  --rose-l:   #f7e8ec;
+  --border:   rgba(28,24,20,.08);
+  --border2:  rgba(28,24,20,.14);
+  --r:        14px;
+  --r-sm:     9px;
+  --sh:       0 1px 6px rgba(28,24,20,.07);
+  --sh2:      0 4px 24px rgba(28,24,20,.11);
+  --font-d:   'Playfair Display', Georgia, serif;
+  --font-b:   'Instrument Sans', system-ui, sans-serif;
+}
+
+html{height:100%;overflow-x:hidden}
+body{
+  font-family:var(--font-b);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100dvh;
+  display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ─── TOPBAR ─── */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  height:58px;padding:0 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(250,247,242,.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:var(--font-d);font-size:21px;font-weight:500;
+  color:var(--ink);letter-spacing:-.3px;display:flex;align-items:center;gap:7px;
+}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--terra);margin-top:1px}
+.topbar-right{display:flex;gap:6px}
+.tb-btn{
+  width:34px;height:34px;border-radius:50%;border:none;
+  background:var(--bg2);color:var(--ink2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  transition:background .15s,transform .12s;
+}
+.tb-btn:hover{background:var(--bg3);transform:scale(1.06)}
+.tb-btn:active{transform:scale(.94)}
+
+/* ─── SCROLL AREA ─── */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden}
+.inner{max-width:660px;margin:0 auto;padding:18px 18px 120px}
+
+/* ─── GREETING ─── */
+.greeting{
+  margin-bottom:22px;
+  animation:up .5s ease both;
+}
+.greeting-sub{font-size:12px;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+.greeting-h{font-family:var(--font-d);font-size:26px;font-weight:400;color:var(--ink);line-height:1.2}
+.greeting-h em{font-style:italic;color:var(--terra)}
+
+/* ─── CAPTURE ─── */
+.capture{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r);padding:14px 16px;
+  box-shadow:var(--sh);
+  display:flex;flex-direction:column;gap:0;
+  animation:up .5s .05s ease both;
+  transition:box-shadow .2s,border-color .2s;
+}
+.capture:focus-within{box-shadow:var(--sh2);border-color:var(--border2)}
+.capture-top{display:flex;align-items:flex-start;gap:12px}
+.capture-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--terra-l);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;margin-top:1px;
+}
+.capture-ta{
+  flex:1;border:none;outline:none;resize:none;
+  font-family:var(--font-b);font-size:15px;color:var(--ink);
+  background:transparent;line-height:1.55;
+  min-height:22px;max-height:110px;
+}
+.capture-ta::placeholder{color:var(--ink3)}
+.capture-send{
+  width:30px;height:30px;border-radius:50%;border:none;
+  background:var(--terra);color:#fff;cursor:pointer;
+  font-size:14px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background .15s,transform .12s;
+  align-self:flex-end;
+}
+.capture-send:hover{background:#b35c35;transform:scale(1.07)}
+.capture-send:active{transform:scale(.93)}
+.capture-pills{
+  display:flex;gap:6px;flex-wrap:wrap;
+  margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.pill{
+  font-size:12px;padding:4px 11px;border-radius:20px;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--ink3);cursor:pointer;font-family:var(--font-b);
+  transition:all .15s;
+}
+.pill:hover{color:var(--terra);border-color:var(--terra)}
+.pill.on{background:var(--terra);border-color:var(--terra);color:#fff}
+
+/* ─── SECTION HEADER ─── */
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:28px 0 12px}
+.sec-title{font-family:var(--font-d);font-size:17px;font-weight:400;color:var(--ink)}
+.sec-btn{
+  font-size:13px;color:var(--ink3);cursor:pointer;
+  background:none;border:none;font-family:var(--font-b);
+  transition:color .15s;
+}
+.sec-btn:hover{color:var(--terra)}
+
+/* ─── APPS ROW ─── */
+.apps{display:flex;gap:9px;flex-wrap:wrap}
+.app-chip{
+  flex:1;min-width:120px;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px 12px;
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;box-shadow:var(--sh);
+  transition:box-shadow .15s,transform .12s,border-color .15s;
+  animation:up .4s ease both;
+}
+.app-chip:hover{box-shadow:var(--sh2);border-color:var(--border2);transform:translateY(-1px)}
+.app-chip:active{transform:translateY(0)}
+.app-ico{font-size:19px}
+.app-info{flex:1}
+.app-name{font-size:13px;font-weight:500;color:var(--ink)}
+.app-stat{font-size:11px;color:var(--ink3);margin-top:1px}
+.app-badge{
+  font-size:10px;font-weight:500;
+  background:var(--terra);color:#fff;
+  min-width:18px;height:18px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+}
+
+/* ─── PROJECT CARDS ─── */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
+.proj-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r);padding:16px 18px;
+  cursor:pointer;box-shadow:var(--sh);
+  position:relative;overflow:hidden;
+  transition:box-shadow .2s,transform .15s;
+  animation:up .4s ease both;
+}
+.proj-card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.proj-card:active{transform:translateY(0)}
+.proj-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--accent,var(--sage));border-radius:var(--r) var(--r) 0 0;
+}
+.proj-card[data-c="terra"]{--accent:var(--terra)}
+.proj-card[data-c="sage"] {--accent:var(--sage)}
+.proj-card[data-c="sky"]  {--accent:var(--sky)}
+.proj-card[data-c="gold"] {--accent:var(--gold)}
+.proj-card[data-c="rose"] {--accent:var(--rose)}
+
+.proj-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.proj-emoji{font-size:22px;line-height:1}
+.proj-badge{
+  font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;
+}
+.badge-active{background:var(--sage-l);color:var(--sage)}
+.badge-idea  {background:var(--gold-l);color:var(--gold)}
+.badge-pause {background:var(--bg2);color:var(--ink3)}
+
+.proj-name{
+  font-family:var(--font-d);font-size:15px;font-weight:500;
+  color:var(--ink);margin-bottom:4px;line-height:1.3;
+}
+.proj-desc{font-size:13px;color:var(--ink3);line-height:1.5;margin-bottom:11px}
+.proj-meta{display:flex;gap:12px}
+.proj-stat{font-size:12px;color:var(--ink3)}
+.prog-wrap{margin-top:10px}
+.prog{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px;background:var(--accent,var(--sage));transition:width .5s ease}
+
+/* ─── IDEAS ─── */
+.ideas{display:flex;flex-direction:column;gap:7px}
+.idea{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:11px 14px;
+  display:flex;gap:11px;align-items:flex-start;
+  cursor:pointer;box-shadow:var(--sh);
+  transition:box-shadow .15s;
+  animation:up .4s ease both;
+}
+.idea:hover{box-shadow:var(--sh2)}
+.idea-dot{
+  width:7px;height:7px;border-radius:50%;
+  flex-shrink:0;margin-top:5px;
+  background:var(--terra);
+}
+.idea-dot[data-c="sage"]{background:var(--sage)}
+.idea-dot[data-c="sky"] {background:var(--sky)}
+.idea-dot[data-c="gold"]{background:var(--gold)}
+.idea-dot[data-c="rose"]{background:var(--rose)}
+.idea-body{flex:1}
+.idea-txt{font-size:14px;color:var(--ink);line-height:1.5}
+.idea-foot{font-size:11px;color:var(--ink3);margin-top:3px;display:flex;gap:7px;align-items:center}
+.idea-tag{background:var(--bg2);padding:2px 7px;border-radius:9px}
+
+/* ─── EMPTY ─── */
+.empty{text-align:center;padding:30px 20px;color:var(--ink3)}
+.empty-ico{font-size:34px;margin-bottom:9px}
+.empty p{font-size:14px;line-height:1.6}
+
+/* ─── FAB ─── */
+.fab{
+  position:fixed;bottom:calc(72px + env(safe-area-inset-bottom));right:18px;
+  width:50px;height:50px;border-radius:25px;border:none;
+  background:var(--terra);color:#fff;font-size:22px;
+  box-shadow:0 4px 18px rgba(201,107,66,.38);
+  cursor:pointer;z-index:150;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s,box-shadow .2s;
+}
+.fab:hover{transform:scale(1.09);box-shadow:0 6px 26px rgba(201,107,66,.48)}
+.fab:active{transform:scale(.94)}
+
+/* ─── NAV ─── */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(250,247,242,.92);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:6px 0 max(6px,env(safe-area-inset-bottom));
+}
+.nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:4px 14px;border:none;background:none;
+  cursor:pointer;color:var(--ink3);font-family:var(--font-b);
+  transition:color .15s;
+}
+.nav-btn.on{color:var(--terra)}
+.nav-ico{font-size:19px}
+.nav-lbl{font-size:10px;font-weight:500;letter-spacing:.3px}
+
+/* ─── MODAL ─── */
+.overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(28,24,20,.46);
+  display:flex;align-items:flex-end;
+  opacity:0;pointer-events:none;
+  transition:opacity .22s;
+}
+.overlay.on{opacity:1;pointer-events:all}
+.sheet{
+  background:var(--bg);border-radius:20px 20px 0 0;
+  padding:18px 18px max(18px,env(safe-area-inset-bottom));
+  width:100%;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  max-height:92dvh;overflow-y:auto;
+}
+.overlay.on .sheet{transform:translateY(0)}
+.sheet-handle{width:34px;height:4px;border-radius:2px;background:var(--border2);margin:0 auto 18px}
+.sheet-title{font-family:var(--font-d);font-size:20px;font-weight:400;margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{font-size:11px;font-weight:500;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase;display:block;margin-bottom:6px}
+.fi{
+  width:100%;padding:10px 13px;
+  border:1px solid var(--border2);border-radius:var(--r-sm);
+  background:#fff;font-family:var(--font-b);font-size:15px;color:var(--ink);
+  outline:none;transition:border-color .15s;
+}
+.fi:focus{border-color:var(--terra)}
+.fi-row{display:flex;gap:12px}
+.fi-row .field{flex:1}
+.cpick{display:flex;gap:9px;flex-wrap:wrap}
+.cp{
+  width:26px;height:26px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:border-color .15s,transform .12s;
+}
+.cp:hover{transform:scale(1.12)}
+.cp.on{border-color:var(--ink2)}
+.submit{
+  width:100%;padding:13px;
+  background:var(--terra);color:#fff;border:none;
+  border-radius:var(--r-sm);font-family:var(--font-b);
+  font-size:15px;font-weight:500;cursor:pointer;
+  transition:background .15s,transform .12s;margin-top:6px;
+}
+.submit:hover{background:#b35c35}
+.submit:active{transform:scale(.98)}
+
+/* ─── ANIMATIONS ─── */
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Branie
+  </div>
+  <div class="topbar-right">
+    <button class="tb-btn" title="Søg">🔍</button>
+    <button class="tb-btn" title="Indstillinger">⚙️</button>
+  </div>
+</header>
+
+<div class="scroll">
+<div class="inner">
+
+  <!-- Greeting -->
+  <div class="greeting">
+    <div class="greeting-sub">God dag</div>
+    <div class="greeting-h">Hvad vil du <em>skabe</em> i dag?</div>
+  </div>
+
+  <!-- Quick capture -->
+  <div class="capture">
+    <div class="capture-top">
+      <div class="capture-avatar">💡</div>
+      <textarea class="capture-ta" id="cta" placeholder="En tanke, en idé, et link…" rows="1" oninput="resize(this)"></textarea>
+      <button class="capture-send" id="csend" onclick="doCapture()">↑</button>
+    </div>
+    <div class="capture-pills">
+      <button class="pill on" data-t="idé">💡 Idé</button>
+      <button class="pill" data-t="note">📝 Note</button>
+      <button class="pill" data-t="link">🔗 Link</button>
+      <button class="pill" data-t="projekt">📁 Projekt</button>
+    </div>
+  </div>
+
+  <!-- Connected apps -->
+  <div class="sec">
+    <span class="sec-title">Koblet til</span>
+    <button class="sec-btn" onclick="apiInfo()">+ Tilslut app</button>
+  </div>
+  <div class="apps" id="appsRow">
+    <div class="app-chip"><span class="app-ico">✅</span><div class="app-info"><div class="app-name">Opgaver</div><div class="app-stat" id="taskStat">— åbne</div></div><span class="app-badge" id="taskBadge" style="display:none"></span></div>
+    <div class="app-chip"><span class="app-ico">📓</span><div class="app-info"><div class="app-name">Noter</div><div class="app-stat" id="noteStat">— noter</div></div></div>
+    <div class="app-chip"><span class="app-ico">📅</span><div class="app-info"><div class="app-name">Kalender</div><div class="app-stat">Ingen dato</div></div></div>
+  </div>
+
+  <!-- Projects -->
+  <div class="sec">
+    <span class="sec-title">Projekter</span>
+    <button class="sec-btn" onclick="openProjModal()">+ Nyt</button>
+  </div>
+  <div class="proj-grid" id="projGrid"></div>
+
+  <!-- Ideas -->
+  <div class="sec">
+    <span class="sec-title">Idébank</span>
+    <button class="sec-btn" id="ideaMore">Se alle</button>
+  </div>
+  <div class="ideas" id="ideasEl"></div>
+
+</div>
+</div>
+
+<button class="fab" onclick="openProjModal()">＋</button>
+
+<nav class="nav">
+  <button class="nav-btn on" data-tab="home"><span class="nav-ico">🏠</span><span class="nav-lbl">Hjem</span></button>
+  <button class="nav-btn" data-tab="projects"><span class="nav-ico">📁</span><span class="nav-lbl">Projekter</span></button>
+  <button class="nav-btn" data-tab="ideas"><span class="nav-ico">💡</span><span class="nav-lbl">Idéer</span></button>
+  <button class="nav-btn" data-tab="apps"><span class="nav-ico">🔗</span><span class="nav-lbl">Apps</span></button>
+</nav>
+
+<!-- New project modal -->
+<div class="overlay" id="projOverlay" onclick="closeOnBg(event,'projOverlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Nyt projekt</div>
+    <div class="field"><label>Navn</label><input class="fi" id="pName" placeholder="Projektets navn"/></div>
+    <div class="field"><label>Beskrivelse</label><input class="fi" id="pDesc" placeholder="Hvad handler det om?"/></div>
+    <div class="fi-row">
+      <div class="field"><label>Emoji</label><input class="fi" id="pEmoji" placeholder="🚀" maxlength="2"/></div>
+      <div class="field"><label>Status</label>
+        <select class="fi" id="pStatus">
+          <option value="active">Aktiv</option>
+          <option value="idea">Idéfase</option>
+          <option value="pause">Pause</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Farve</label>
+      <div class="cpick">
+        <div class="cp on" data-c="terra" style="background:#c96b42" onclick="pickColor(this)"></div>
+        <div class="cp" data-c="sage"  style="background:#5f8a68" onclick="pickColor(this)"></div>
+        <div class="cp" data-c="sky"   style="background:#4a7fa5" onclick="pickColor(this)"></div>
+        <div class="cp" data-c="gold"  style="background:#b8892a" onclick="pickColor(this)"></div>
+        <div class="cp" data-c="rose"  style="background:#b85e6e" onclick="pickColor(this)"></div>
+      </div>
+    </div>
+    <button class="submit" onclick="saveProject()">Opret projekt</button>
+  </div>
+</div>
+
+<script>
+// ── Keys ──
+const PK = 'branie2_projects';
+const IK = 'branie2_ideas';
+
+// ── Default data ──
+let projects = JSON.parse(localStorage.getItem(PK)||'null') || [
+  {id:1,name:'Branie',desc:'Hub-app der samler alle mine projekter og idéer',emoji:'🧠',color:'terra',status:'active',prog:45,tasks:6,ideas:4},
+  {id:2,name:'Opgave App',desc:'Task manager der kobler op mod Branie',emoji:'✅',color:'sky',status:'active',prog:72,tasks:14,ideas:3},
+  {id:3,name:'Sommerferie 2025',desc:'Planlæg rejse og aktiviteter',emoji:'🌿',color:'gold',status:'idea',prog:8,tasks:1,ideas:9},
+];
+let ideas = JSON.parse(localStorage.getItem(IK)||'null') || [
+  {id:1,text:'Branie API-endpoint så opgave-appen kan pushe status direkte',type:'idé',proj:'Branie',color:'terra',when:'Nu'},
+  {id:2,text:'Ugegennemgang hver søndag — prioriter og ryd op i idébanken',type:'note',proj:null,color:'sage',when:'I går'},
+  {id:3,text:'iOS-widget til lock screen med dagens vigtigste opgave',type:'idé',proj:'Opgave App',color:'sky',when:'Man'},
+  {id:4,text:'Airbnb i Bornholm — book senest april',type:'link',proj:'Sommerferie 2025',color:'gold',when:'Søn'},
+];
+
+let capType = 'idé';
+let projColor = 'terra';
+
+function save(){
+  localStorage.setItem(PK,JSON.stringify(projects));
+  localStorage.setItem(IK,JSON.stringify(ideas));
+}
+
+// ── Render projects ──
+function renderProjects(){
+  const g = document.getElementById('projGrid');
+  if(!projects.length){
+    g.innerHTML='<div class="empty"><div class="empty-ico">📁</div><p>Ingen projekter endnu.<br>Tryk <b>+ Nyt</b> for at starte.</p></div>';
+    return;
+  }
+  g.innerHTML = projects.map((p,i)=>`
+    <div class="proj-card" data-c="${p.color}" style="animation-delay:${.05+i*.06}s" onclick="viewProject(${p.id})">
+      <div class="proj-top">
+        <span class="proj-emoji">${p.emoji||'📁'}</span>
+        <span class="proj-badge badge-${p.status}">${{active:'Aktiv',idea:'Idéfase',pause:'Pause'}[p.status]||'Aktiv'}</span>
+      </div>
+      <div class="proj-name">${p.name}</div>
+      <div class="proj-desc">${p.desc}</div>
+      <div class="proj-meta">
+        <span class="proj-stat">✅ ${p.tasks}</span>
+        <span class="proj-stat">💡 ${p.ideas}</span>
+      </div>
+      <div class="prog-wrap"><div class="prog"><div class="prog-fill" style="width:${p.prog}%"></div></div></div>
+    </div>
+  `).join('');
+}
+
+// ── Render ideas ──
+function renderIdeas(){
+  const el = document.getElementById('ideasEl');
+  const more = document.getElementById('ideaMore');
+  more.textContent = ideas.length > 4 ? `Se alle (${ideas.length})` : 'Se alle';
+  const list = ideas.slice(0,4);
+  if(!list.length){
+    el.innerHTML='<div class="empty"><div class="empty-ico">💡</div><p>Ingen idéer endnu.<br>Fang din første tanke herover.</p></div>';
+    return;
+  }
+  el.innerHTML = list.map((idea,i)=>`
+    <div class="idea" style="animation-delay:${.08+i*.06}s">
+      <div class="idea-dot" data-c="${idea.color}"></div>
+      <div class="idea-body">
+        <div class="idea-txt">${idea.text}</div>
+        <div class="idea-foot">
+          <span>${idea.when}</span>
+          ${idea.proj?`<span class="idea-tag">${idea.proj}</span>`:''}
+          <span class="idea-tag">${idea.type}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Update apps from project data ──
+function updateApps(){
+  const totalTasks = projects.reduce((s,p)=>s+p.tasks,0);
+  const totalIdeas = ideas.length;
+  document.getElementById('taskStat').textContent = `${totalTasks} opgaver`;
+  document.getElementById('noteStat').textContent = `${totalIdeas} idéer`;
+  const badge = document.getElementById('taskBadge');
+  const newToday = ideas.filter(i=>i.when==='Nu').length;
+  if(newToday>0){badge.textContent=newToday;badge.style.display='flex';}
+}
+
+// ── Capture ──
+document.querySelectorAll('.capture-pills .pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.capture-pills .pill').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    capType = btn.dataset.t;
+    if(capType==='projekt') openProjModal();
+  });
+});
+
+function resize(el){
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,108)+'px';
+}
+
+function doCapture(){
+  const ta = document.getElementById('cta');
+  const txt = ta.value.trim();
+  if(!txt) return;
+  const cols = {idé:'terra',note:'sage',link:'gold',projekt:'sky'};
+  ideas.unshift({id:Date.now(),text:txt,type:capType,proj:null,color:cols[capType]||'terra',when:'Nu'});
+  save(); renderIdeas(); updateApps();
+  ta.value=''; ta.style.height='auto';
+  const btn = document.getElementById('csend');
+  btn.textContent='✓'; btn.style.background='var(--sage)';
+  setTimeout(()=>{btn.textContent='↑';btn.style.background='';},1500);
+  // reset pill
+  document.querySelectorAll('.capture-pills .pill').forEach(b=>b.classList.remove('on'));
+  document.querySelector('.capture-pills .pill').classList.add('on');
+  capType='idé';
+}
+
+document.getElementById('cta').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doCapture();}
+});
+
+// ── Project modal ──
+function openProjModal(){
+  document.getElementById('projOverlay').classList.add('on');
+  setTimeout(()=>document.getElementById('pName').focus(),320);
+}
+function closeOverlay(id){document.getElementById(id).classList.remove('on')}
+function closeOnBg(e,id){if(e.target===e.currentTarget)closeOverlay(id)}
+function pickColor(el){
+  document.querySelectorAll('.cp').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); projColor=el.dataset.c;
+}
+function saveProject(){
+  const name = document.getElementById('pName').value.trim();
+  if(!name){document.getElementById('pName').focus();return;}
+  const desc = document.getElementById('pDesc').value.trim();
+  const emoji = document.getElementById('pEmoji').value.trim()||'📁';
+  const status = document.getElementById('pStatus').value;
+  projects.unshift({id:Date.now(),name,desc,emoji,color:projColor,status,prog:0,tasks:0,ideas:0});
+  save(); renderProjects(); closeOverlay('projOverlay');
+  ['pName','pDesc','pEmoji'].forEach(id=>document.getElementById(id).value='');
+}
+
+function viewProject(id){
+  const p=projects.find(x=>x.id===id);
+  if(p) alert(`${p.emoji} ${p.name}\n\n${p.desc}\n\n📊 Fremskridt: ${p.prog}%\n✅ ${p.tasks} opgaver  💡 ${p.ideas} idéer\n\nDetaljeside kommer i næste version.`);
+}
+
+function apiInfo(){
+  alert('Branie API\n\nAndre apps kobler op via:\n\n1. LocalStorage (samme origin):\n   branie2_projects\n   branie2_ideas\n\n2. postMessage på tværs:\n   window.postMessage({type:"branie:push",...})\n\n3. URL-protokol:\n   branie://connect?app=MinApp\n\nSe API.md for fuld dokumentation.');
+}
+
+// ── Nav tabs ──
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const tab=btn.dataset.tab;
+    if(tab==='apps') apiInfo();
+  });
+});
+
+// ── Branie API: listen for connected apps ──
+window.addEventListener('message', e=>{
+  if(!e.data||typeof e.data!=='object') return;
+  if(e.data.type==='branie:push'){
+    const {app,tasks_open,notes_count} = e.data;
+    if(typeof tasks_open==='number') document.getElementById('taskStat').textContent=`${tasks_open} åbne`;
+    if(typeof notes_count==='number') document.getElementById('noteStat').textContent=`${notes_count} noter`;
+  }
+  if(e.data.type==='branie:getProjects'){
+    e.source?.postMessage({type:'branie:projects',projects},e.origin||'*');
+  }
+});
+
+// ── Expose public API ──
+window.BRANIE = {
+  getProjects: ()=>JSON.parse(localStorage.getItem(PK)||'[]'),
+  getIdeas:    ()=>JSON.parse(localStorage.getItem(IK)||'[]'),
+  addIdea: (txt,type='idé',proj=null)=>{
+    const cols={idé:'terra',note:'sage',link:'gold',projekt:'sky'};
+    ideas.unshift({id:Date.now(),text:txt,type,proj,color:cols[type]||'terra',when:'Nu'});
+    save(); renderIdeas(); updateApps();
+  }
+};
+
+// ── Init ──
+renderProjects();
+renderIdeas();
+updateApps();
+
+// ── Service Worker ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
